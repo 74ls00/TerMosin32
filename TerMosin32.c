@@ -491,6 +491,8 @@ uint8_t znak=0, Dig[4];
 
 }
 
+//!
+/*
 static void led_nag_ohl(void){
 	if ( Termostat.ohlagdenie ){
 		lcd_buffer[1]=font[0];
@@ -503,6 +505,7 @@ static void led_nag_ohl(void){
 		lcd_buffer[3]=f_G|sH;
 		}
 }
+*/
 
 //-------------------------------------
 static void data_led(void)
@@ -515,17 +518,21 @@ if (ViewName)
 	{
 	if ( time_flag & BIT(_viewp) ){
 		if (ViewName==1){
-			//toC
+			//toC температура
 			lcd_buffer[1]=f_t;
 			lcd_buffer[2]=f_gr;
 			lcd_buffer[3]=f_C;
 			}
 			else
 			if (ViewName==2){
-				//ГUC
-			lcd_buffer[1]=f_G;
-			lcd_buffer[2]=f_U;
-			lcd_buffer[3]=f_C|sH;
+				//ГUC гистерезис нагрева
+//			lcd_buffer[1]=f_G;
+			lcd_buffer[1]=f_G|sH;
+//			lcd_buffer[2]=f_U;
+//			lcd_buffer[3]=f_C|sH;
+//			lcd_buffer[3]=f_C;
+//			lcd_buffer[3]=f_H;
+			lcd_buffer[3]=f_H|sH;
 			}
 			else
 			if (ViewName==3){
@@ -540,12 +547,21 @@ if (ViewName)
 //			if (ViewName==4){
 			
 			if ( Termostat.ohlagdenie ){
-				lcd_buffer[1]=sE|sD|sC;
-				lcd_buffer[3]=f_L|sH;
+//              L. H 
+//debug err E0
+				lcd_buffer[1]=f_E;//E
+				lcd_buffer[2]=sA|sB|sC|sD|sE|sF;//r
+				Termostat.ohlagdenie=0;
+				
+//				lcd_buffer[1]=sE|sD|sC;//L
+//				lcd_buffer[3]=f_L|sH;//L.
 				}
 				else{
-				lcd_buffer[1]=sF|sA|sB;
-				lcd_buffer[3]=f_H|sH;
+//				прямое охлаждение
+//				lcd_buffer[1]=sF|sA|sB;
+				lcd_buffer[1]=f_G|sH;//Г.
+//				lcd_buffer[3]=f_H|sH;
+				lcd_buffer[3]=sA|sB|sC|sD|sE|sF|sH;//O.
 				
 				}
 			}
